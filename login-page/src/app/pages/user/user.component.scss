@@ -1,0 +1,139 @@
+:host {
+  display: block;
+}
+
+.page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  .title {
+    h1 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .subtitle {
+      margin: 0;
+      color: #6b7280; // gray-500
+      font-size: 13px;
+    }
+  }
+
+  button mat-icon {
+    margin-right: 6px;
+  }
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr max-content max-content;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  .search { width: 100%; }
+  .filter { width: 210px; }
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.06),
+    0 8px 24px rgba(0,0,0,0.06);
+  padding: 8px 8px 0;
+}
+
+.table-wrap {
+  position: relative;
+  overflow: auto;
+
+  table {
+    width: 100%;
+  }
+
+  th.mat-header-cell {
+    color: #374151;
+    font-weight: 600;
+  }
+
+  td.mat-cell, th.mat-header-cell {
+    padding: 12px 16px;
+  }
+
+  .user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #e5e7eb center/cover no-repeat;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #374151;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      .name { font-weight: 600; }
+      .email { font-size: 12px; color: #6b7280; }
+    }
+  }
+
+  .role { font-weight: 500; }
+
+  .actions {
+    text-align: right;
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #e5e7eb;
+    color: #374151;
+
+    &--green { background: #e8f5e9; color: #1b5e20; }
+    &--orange { background: #fff3e0; color: #e65100; }
+    &--red { background: #ffebee; color: #b71c1c; }
+  }
+
+  .loading-overlay {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(2px);
+  }
+
+  .empty {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 36px 0 24px;
+
+    mat-icon {
+      font-size: 48px; height: 48px; width: 48px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    p { margin: 0; font-weight: 600; color: #374151; }
+    small { color: #6b7280; }
+  }
+}
+
+mat-paginator {
+  border-top: 1px solid #f3f4f6;
+  border-radius: 0 0 16px 16px;
+  padding: 4px 8px;
+}

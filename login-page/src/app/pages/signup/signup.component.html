@@ -1,0 +1,52 @@
+<app-default-login-layout
+    title="Signup for a new account"
+    primaryButtonText="Signup Now"
+    secondaryButtonText="Login Now"
+    (submit)="submit()"
+    (navigate)="navigate()"
+    [disablePrimaryBtn]="!signupForm.valid"
+
+    >
+
+    <form [formGroup]="signupForm" (ngSubmit)="submit($event)">
+      <app-primary-input
+        formControlName="username"
+        inputName="username"
+        type="text"
+        label="Username"
+        placeholder="Username">
+        <img src="/assets/svg/email-icon.svg">
+      </app-primary-input>
+
+      <app-primary-input
+        formControlName="email"
+        inputName="email"
+        type="email"
+        label="Email"
+        placeholder="email@email.com">
+        <img src="/assets/svg/email-icon.svg">
+      </app-primary-input>
+
+      <app-primary-input
+        formControlName="password"
+        inputName="password"
+        type="password"
+        label="Password"
+        placeholder="Enter your password">
+        <img src="/assets/svg/password-icon.svg">
+      </app-primary-input>
+
+      <app-primary-input
+        formControlName="passwordConfirm"
+        inputName="passwordConfirm"
+        type="password"
+        placeholder="Repeat your password">
+        <img src="/assets/svg/password-icon.svg">
+      </app-primary-input>
+      
+
+
+    </form>
+</app-default-login-layout>
+
+

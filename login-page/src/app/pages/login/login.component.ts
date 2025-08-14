@@ -40,7 +40,10 @@ export class LoginComponent {
 
   submit(){
     this.loginService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
-      next: () => this.toastService.success('Login successful'),
+      next: () => {
+        this.toastService.success('Login successful');
+        this.router.navigate(['/certificates']);
+      },
       error: () => this.toastService.error('Login failed')
     });
   }

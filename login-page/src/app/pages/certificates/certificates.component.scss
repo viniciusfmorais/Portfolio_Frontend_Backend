@@ -1,9 +1,327 @@
-.page { padding: 1rem; }
-h1 { margin: 0 0 1rem; font-size: 1.4rem; }
-.state { padding: .75rem; background: #f5f7fa; border-radius: .5rem; }
-.state.error { background: #ffecec; color: #9b1c1c; }
-.table { width: 100%; border-collapse: collapse; font-size: .95rem; }
-.table th, .table td { padding: .6rem .5rem; border-bottom: 1px solid #ececec; text-align: left; }
-.table th { background: #fafafa; font-weight: 600; }
-button { padding: .35rem .6rem; border-radius: .4rem; border: 1px solid #ddd; cursor: pointer; }
-button:hover { background: #f3f3f3; }
+// ===== Design tokens
+$bg: #f7f8fa;
+$card: #ffffff;
+$text: #111827;
+$muted: #6b7280;
+$border: #e5e7eb;
+$primary: #2563eb;
+$primary-600: #1d4ed8;
+$danger: #ef4444;
+$danger-600: #dc2626;
+$success: #16a34a;
+$shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+$radius: 14px;
+
+// ===== Page
+.page {
+  width: min(95vw, 1700px);
+  margin: 2rem auto;
+  padding: 1.25rem;
+  color: $text;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  h1 {
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.25rem;
+  }
+
+  h2 {
+    margin: 2rem 0 0.75rem;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+}
+
+// ===== States
+.state {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius;
+  padding: 0.85rem 1rem;
+  box-shadow: $shadow;
+  color: $muted;
+  &.error {
+    color: $danger-600;
+    border-color: rgba($danger, 0.35);
+    background: #fff6f6;
+  }
+}
+
+// ===== Table
+.table {
+  width: 100%;
+  text-align: center;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius;
+  overflow: hidden; // round corners
+  box-shadow: $shadow;
+
+  thead {
+    background: #f3f4f6;
+    th {
+      text-align: center;
+      font-weight: 700;
+      padding: 0.9rem 1rem;
+      font-size: 0.9rem;
+      color: #111827;
+      border-bottom: 1px solid $border;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      &:hover {
+        background: #fafafa;
+      }
+    }
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid $border;
+      vertical-align: middle;
+      color: #111827;
+
+      &:nth-child(2) { color: $muted; } // description
+      &:nth-child(5) { color: $muted; } // user
+    }
+    tr:last-child td {
+      border-bottom: 0;
+    }
+  }
+
+  // Action buttons inside table
+  td button {
+    appearance: none;
+    border: 1px solid $border;
+    background: #fff;
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all .15s ease;
+    margin-right: .4rem;
+
+    &:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+    &:active { transform: translateY(0); box-shadow: none; }
+
+    // First button in the cell = Delete (danger)
+    &:first-child {
+      border-color: rgba($danger, .4);
+      color: $danger-600;
+      background: #fff7f7;
+      &:hover { background: #ffecec; border-color: rgba($danger, .6); }
+    }
+
+    // Second button in the cell = Open/Download (primary ghost)
+    &:last-child {
+      border-color: rgba($primary, .35);
+      color: $primary-600;
+      background: #f8fbff;
+      &:hover { background: #eef5ff; border-color: rgba($primary, .55); }
+    }
+  }
+}
+
+// Horizontal scroll on very small screens
+@media (max-width: 720px) {
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+// ===== Upload box
+.upload-box {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-wrap: wrap;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $radius;
+  padding: .9rem;
+  box-shadow: $shadow;
+
+  // file input as a pretty button
+  .file-label {
+    position: relative;
+    input { display: none; }
+    span {
+      display: inline-block;
+      padding: 0.55rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid $border;
+      background: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .15s ease;
+      &:hover { background: #f5f7fb; transform: translateY(-1px); }
+      &:active { transform: translateY(0); }
+    }
+  }
+
+  // file “chip” (uses your .file-chosen if present)
+  .file-chosen {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: #f3f4f6;
+    color: #111827;
+    border: 1px solid $border;
+    border-radius: 999px;
+    padding: .35rem .6rem;
+
+    .clear-file {
+      border: 1px solid $border;
+      background: $primary;
+      border-radius: 8px;
+      padding: 0 .35rem;
+      cursor: pointer;
+      font-weight: 700;
+      line-height: 1.25;
+      &:hover { background: $danger; }
+    }
+  }
+
+  // description input
+  input[type="text"] {
+    min-width: 280px;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid $border;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+    &:focus {
+      border-color: rgba($primary, .6);
+      box-shadow: 0 0 0 4px rgba($primary, .12);
+    }
+  }
+
+  // upload button
+  button[type="button"] {
+    appearance: none;
+    border: 1px solid transparent;
+    background: $primary;
+    color: white;
+    padding: 0.55rem 0.9rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+
+    &:hover { background: $primary-600; transform: translateY(-1px); box-shadow: 0 10px 20px rgba(37,99,235,.2); }
+    &:active { transform: translateY(0); box-shadow: none; }
+
+    &:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  // progress bar
+  .progress {
+    position: relative;
+    width: 260px;
+    height: 10px;
+    background: #eef2f7;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid $border;
+
+    .bar {
+      height: 100%;
+      background: linear-gradient(90deg, $primary, $primary-600);
+      width: 0%;
+      transition: width .2s ease;
+    }
+    .percent {
+      margin-left: .5rem;
+      font-size: .85rem;
+      color: $muted;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Small typography tweaks on tiny screens
+@media (max-width: 520px) {
+  .page {
+    padding: 1rem;
+    .upload-box { gap: .5rem; }
+    .table thead th, .table tbody td { padding: 0.7rem 0.75rem; font-size: .93rem; }
+  }
+}
+
+
+
+//topbar
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.userbox {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: .45rem .6rem .45rem .6rem;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.06);
+}
+
+.userbox .info {
+  display: grid;
+  line-height: 1.1;
+}
+.userbox .email {
+  font-weight: 700;
+  font-size: .95rem;
+  color: #111827;
+}
+
+
+.userbox .logout {
+  appearance: none;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  color: $primary;
+  padding: .42rem .7rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .85rem;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.userbox .logout:hover {
+  transform: translateY(-1px);
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, .18);
+}
+.userbox .logout:active { transform: translateY(0); box-shadow: none; }
+
+/* mobile tweaks */
+@media (max-width: 520px) {
+  .userbox { padding: .4rem .5rem; }
+  .userbox .name { font-size: .9rem; }
+  .userbox .email { display: none; } /* hide email on tiny screens to save space */
+}

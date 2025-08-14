@@ -1,18 +1,36 @@
 <div class="page">
-  <h1>Meus Certificados</h1>
 
-  <div *ngIf="loading" class="state">Carregando…</div>
+  <!-- Topbar with user info -->
+  <div class="topbar">
+    <div class="userbox" *ngIf="userName || userEmail">
+      <div class="info">
+        <div class="email" *ngIf="userEmail">{{ userEmail }}</div>
+      </div>
+      <button type="button" class="logout" (click)="logout()">Logout</button>
+    </div>
+  </div>
+    
+  
+  <h1>My Certificates List</h1>
+
+ 
+
+  <!-- List states -->
+  <div *ngIf="loading" class="state">Loading…</div>
   <div *ngIf="!loading && error" class="state error">{{ error }}</div>
-  <div *ngIf="!loading && !error && rows.length === 0" class="state">Nenhum certificado encontrado.</div>
+  <div *ngIf="!loading && !error && rows.length === 0" class="state">No certificates found.</div>
 
+  <!-- Table -->
   <table *ngIf="!loading && !error && rows.length > 0" class="table">
     <thead>
       <tr>
-        <th>Arquivo</th>
-        <th>Descrição</th>
-        <th>Tipo</th>
-        <th>Enviado em</th>
-        <th>Ação</th>
+        <th>File</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Uploaded at</th>
+        <th>User</th>
+        <th>Action</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -21,10 +39,45 @@
         <td>{{ r.description || '—' }}</td>
         <td>{{ r.contentType }}</td>
         <td>{{ r.uploadDate | date:'short' }}</td>
-        <td>
-          <button type="button" (click)="openOrDownload(r)">abrir/baixar</button>
-        </td>
+        <td>{{ r.ownerUsername }}</td>
+        <td><button type="button" (click)="openOrDownload(r)">Open</button></td>
+        <td><button type="button" (click)="confirmAndDelete(r)">Delete</button></td>
       </tr>
     </tbody>
   </table>
+
+  <h2>Upload New Certificate</h2>
+
+   <div class="upload-box">
+    <label class="file-label">
+      <input type="file" (change)="onFileSelected($event)" [disabled]="uploading" />
+      <span>Select file…</span>
+    </label>
+
+    <span class="file-chosen" *ngIf="selectedFile">
+      {{ selectedFile.name }} — {{ formatBytes(selectedFile.size) }}
+      <button type="button" class="clear-file" (click)="clearFile()"> X </button>
+    </span>
+
+    <input type="text"
+          placeholder="Description"
+          [(ngModel)]="selectedDescription"
+          [disabled]="uploading"
+          maxlength="200"
+          style="min-width: 280px;" />
+
+    <button type="button" (click)="uploadFile()" [disabled]="!selectedFile || uploading">
+      {{ uploading ? 'Uploading…' : 'Upload' }}
+    </button>
+
+    <div *ngIf="uploading" class="progress">
+      <div class="bar" [style.width.%]="uploadProgress"></div>
+      <span class="percent">{{ uploadProgress }}%</span>
+    </div>
+  </div>
+
+
+
+
+
 </div>

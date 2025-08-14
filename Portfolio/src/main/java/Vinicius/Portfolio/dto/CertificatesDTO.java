@@ -10,14 +10,16 @@ public class CertificatesDTO {
     private String description;
     private LocalDateTime uploadDate;
     private String base64Content;
+    private String ownerUsername;
 
         // Constructor, getters, setters
-        public CertificatesDTO(Long id, String fileName, String contentType, String description, LocalDateTime uploadDate) {
+        public CertificatesDTO(Long id, String fileName, String contentType, String description, LocalDateTime uploadDate, String ownerUsername) {
             this.id = id;
             this.fileName = fileName;
             this.contentType = contentType;
             this.description = description;
             this.uploadDate = uploadDate;
+            this.ownerUsername = ownerUsername;
         }
 
 
@@ -74,5 +76,13 @@ public class CertificatesDTO {
         public void setBase64Content(String base64Content) {
             this.base64Content = base64Content;
         }
+
+        public void setOwnerUsername(String ownerUsername) {
+            this.ownerUsername = ownerUsername;
+        }
+
+        public String getOwnerUsername() {
+            return ownerUsername;
+        }   
 
 }

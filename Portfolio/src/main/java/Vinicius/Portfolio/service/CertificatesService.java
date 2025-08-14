@@ -13,6 +13,9 @@ import Vinicius.Portfolio.model.User;
 import Vinicius.Portfolio.repository.CertificatesRepository;
 import Vinicius.Portfolio.repository.UserRepository;
 
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class CertificatesService {
 
@@ -31,8 +34,8 @@ public class CertificatesService {
             .orElseThrow(() -> new ResourceNotFoundException("Certificate not found with id: " + id));
     }
 
- 
-    public Certificates saveCertificates(String username, MultipartFile file) throws Exception {
+
+    public Certificates saveCertificates(String username, MultipartFile file, String description) throws Exception {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found"));
 
@@ -41,6 +44,7 @@ public class CertificatesService {
         certificates.setFilename(file.getOriginalFilename());
         certificates.setContentType(file.getContentType());
         certificates.setFileData(file.getBytes());
+        certificates.setDescription(description);
         certificates.setUploadDate(LocalDateTime.now());
 
         return certificatesRepository.save(certificates);
@@ -60,9 +64,11 @@ public class CertificatesService {
         return certificatesRepository.save(certificates);
     }
 
-    public void deleteCertificates(Long id) {
-        if (!certificatesRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Certificate " + id + " not found");
+    public void deleteCertificates(Long id, String username) {
+        Certificates cert = certificatesRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Certificate " + id + " not found"));
+        if (cert.getOwner() == null || !cert.getOwner().getUsername().equals(username)) {
+            throw new AccessDeniedException("You do not have permission to delete this certificate");
         }
         certificatesRepository.deleteById(id);
     }

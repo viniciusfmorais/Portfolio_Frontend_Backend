@@ -18,13 +18,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        @Override
+        public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Vinicius.Portfolio.model.User user = userRepository.findByUsername(login)
+                .or(() -> userRepository.findByEmail(login))
+                .orElseThrow(() -> new UsernameNotFoundException("User " + login + " not found"));
 
-        Vinicius.Portfolio.model.User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
         return User.builder()
-                .username(user.getUsername())
+                .username(user.getUsername()) // ou user.getEmail()
                 .password(user.getPasswordHash())
                 .roles("USER")
                 .build();

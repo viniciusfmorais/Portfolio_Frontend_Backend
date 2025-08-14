@@ -1,0 +1,30 @@
+<div class="page">
+  <h1>Meus Certificados</h1>
+
+  <div *ngIf="loading" class="state">Carregando…</div>
+  <div *ngIf="!loading && error" class="state error">{{ error }}</div>
+  <div *ngIf="!loading && !error && rows.length === 0" class="state">Nenhum certificado encontrado.</div>
+
+  <table *ngIf="!loading && !error && rows.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>Arquivo</th>
+        <th>Descrição</th>
+        <th>Tipo</th>
+        <th>Enviado em</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of rows; trackBy: trackById">
+        <td>{{ r.fileName }}</td>
+        <td>{{ r.description || '—' }}</td>
+        <td>{{ r.contentType }}</td>
+        <td>{{ r.uploadDate | date:'short' }}</td>
+        <td>
+          <button type="button" (click)="openOrDownload(r)">abrir/baixar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

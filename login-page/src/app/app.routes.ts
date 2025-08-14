@@ -3,6 +3,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { UserComponent } from './pages/user/user.component';
 import { AuthGuard } from './services/auth-guard.service';
+import { CertificatesComponent } from './pages/certificates/certificates.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,11 @@ export const routes: Routes = [
   {
     path: "user",
     component: UserComponent,
+    canActivate: [AuthGuard]  
+  },
+  {
+    path: "certificates",
+    component: CertificatesComponent,
     canActivate: [AuthGuard]  
   }
 

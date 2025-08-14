@@ -1,0 +1,9 @@
+.page { padding: 1rem; }
+h1 { margin: 0 0 1rem; font-size: 1.4rem; }
+.state { padding: .75rem; background: #f5f7fa; border-radius: .5rem; }
+.state.error { background: #ffecec; color: #9b1c1c; }
+.table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.table th, .table td { padding: .6rem .5rem; border-bottom: 1px solid #ececec; text-align: left; }
+.table th { background: #fafafa; font-weight: 600; }
+button { padding: .35rem .6rem; border-radius: .4rem; border: 1px solid #ddd; cursor: pointer; }
+button:hover { background: #f3f3f3; }

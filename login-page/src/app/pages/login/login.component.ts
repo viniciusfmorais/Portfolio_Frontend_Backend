@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 interface LoginForm{
@@ -17,7 +17,8 @@ interface LoginForm{
   imports: [
     DefaultLoginLayoutComponent,
     ReactiveFormsModule,
-    PrimaryInputComponent
+    PrimaryInputComponent,
+    RouterModule
   ],
   providers: [LoginService],
   templateUrl: './login.component.html',
@@ -53,7 +54,5 @@ export class LoginComponent {
 
   }
 
-  goToForgotPassword() {
-    this.router.navigate(['/forgot-password']);
-  }
+
 }  

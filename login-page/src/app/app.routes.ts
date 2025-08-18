@@ -15,29 +15,35 @@ export const routes: Routes = [
   },
   {
     path: "login",
-    component: LoginComponent
+    component: LoginComponent,
+    data: { title: 'Login | Vinicius Portfolio' }
   },
   {
     path: "signup",
-    component: SignupComponent
+    component: SignupComponent,
+    data: { title: 'Signup | Vinicius Portfolio' }
   },
   {
     path: "user",
     component: UserComponent,
-    canActivate: [AuthGuard]  
+    data: { title: 'User Profile | Vinicius Portfolio' },
+    canActivate: [AuthGuard]
   },
   {
     path: "certificates",
     component: CertificatesComponent,
+    data: { title: 'Certificates | Vinicius Portfolio' },
     canActivate: [AuthGuard]  
   },
   {
   path: "forgot-password",
-  component: ForgotPasswordComponent
+  component: ForgotPasswordComponent,
+  data: { title: 'Forgot Password | Vinicius Portfolio' }
   },
   {
   path: 'reset-password',
-  component: ResetPasswordComponent
+  component: ResetPasswordComponent,
+  data: { title: 'Reset Password | Vinicius Portfolio' }
   }
 
 

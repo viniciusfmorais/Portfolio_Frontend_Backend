@@ -17,6 +17,7 @@ export class ResetPasswordComponent implements OnInit {
   confirmPassword: string = '';
   token: string = '';
   message: string = '';
+  
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 

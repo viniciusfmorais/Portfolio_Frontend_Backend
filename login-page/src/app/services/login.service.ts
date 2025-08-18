@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:8080/';
+  private apiUrl = 'http://192.168.1.18:8080/';
   
 
   constructor(private httpClient: HttpClient) { }

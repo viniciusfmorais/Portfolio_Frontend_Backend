@@ -17,7 +17,7 @@ export interface CertificateDTO {
 @Injectable({ providedIn: 'root' })
 export class CertificatesService {
   
-  private baseUrl = 'http://localhost:8080/api/certificates';
+  private baseUrl = 'http://192.168.1.18:8080/api/certificates';
 
   constructor(private http: HttpClient) {}
 

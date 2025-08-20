@@ -6,12 +6,18 @@ import { AuthGuard } from './services/auth-guard.service';
 import { CertificatesComponent } from './pages/certificates/certificates.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { AboutComponent } from './pages/about/about.component';
 
 export const routes: Routes = [
   {
     path: "",
     redirectTo: "login",
     pathMatch: "full"
+  },
+  {
+    path: "about",
+    component: AboutComponent,
+    data: { title: 'About Me | Vinicius Portfolio' }
   },
   {
     path: "login",

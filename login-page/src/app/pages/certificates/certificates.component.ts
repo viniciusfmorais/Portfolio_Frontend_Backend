@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpEventType } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { deleteCookie, getCookie } from '../../core/cookie.util';
 
 @Component({
   selector: 'app-certificates',
@@ -163,7 +164,7 @@ clearFile(): void {
  
   /** Reads JWT from storage, decodes payload, and extracts username/email */
   private setUserFromToken(): void {
-    const raw = sessionStorage.getItem('auth-token') || localStorage.getItem('auth-token');
+    const raw = getCookie('auth-token');
     if (!raw) return;
     const token = raw.replace(/^"(.+)"$/, '$1').replace(/^Bearer\s+/i, '');
 
@@ -183,8 +184,7 @@ clearFile(): void {
 
       this.userEmail =
         payload.email ||
-        sessionStorage.getItem('email') ||
-        localStorage.getItem('email') ||
+        getCookie('email')
         null;
     } catch {
       // ignore bad/expired token — interceptor/guard will handle redirect
@@ -197,6 +197,8 @@ clearFile(): void {
     sessionStorage.removeItem('email');
     localStorage.removeItem('auth-token');
     localStorage.removeItem('email');
+    deleteCookie('auth-token');
+    deleteCookie('email');
     this.router.navigate(['/login']);
   }
 
